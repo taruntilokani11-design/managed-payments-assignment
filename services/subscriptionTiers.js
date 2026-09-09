@@ -4,6 +4,8 @@ const stripe = require('../lib/stripeClient');
 const PRO_PRODUCT_ID = 'prod_VEJDK3KXff2FTO'; // Llama Inc Pro — $9.99/mo
 const ULTRA_PRODUCT_ID = 'prod_VEL8jQkf80Ix7Q'; // Llama Inc Ultra — $12.99/mo
 
+const TIER_PRODUCT_IDS = [PRO_PRODUCT_ID, ULTRA_PRODUCT_ID];
+
 // Fetched fresh from Stripe each time (not cached locally) so the price
 // always matches whatever's currently configured in the Dashboard, and
 // restarting the app never creates duplicate products.
@@ -16,10 +18,14 @@ async function getTier(productId) {
   };
 }
 
-// New subscribers start on the Pro tier; Ultra is offered as an upgrade
-// through the Customer Portal after checkout.
-function getDefaultTier() {
-  return getTier(PRO_PRODUCT_ID);
+// Validates a customer-supplied product id against the known tiers before
+// trusting it — a submitted form field shouldn't be able to check out
+// against an arbitrary Stripe product.
+function getSelectedTier(productId) {
+  if (!TIER_PRODUCT_IDS.includes(productId)) {
+    return getTier(PRO_PRODUCT_ID);
+  }
+  return getTier(productId);
 }
 
-module.exports = { PRO_PRODUCT_ID, ULTRA_PRODUCT_ID, getTier, getDefaultTier };
+module.exports = { PRO_PRODUCT_ID, ULTRA_PRODUCT_ID, TIER_PRODUCT_IDS, getTier, getSelectedTier };

@@ -1,7 +1,7 @@
 const express = require('express');
 const stripe = require('../lib/stripeClient');
 const store = require('../lib/store');
-const { getDefaultTier } = require('../services/subscriptionTiers');
+const { getSelectedTier } = require('../services/subscriptionTiers');
 
 const router = express.Router();
 
@@ -11,7 +11,7 @@ const MANAGED_PAYMENTS_API_VERSION = '2026-02-25.preview';
 
 router.post('/create-checkout-session', async (req, res, next) => {
   try {
-    const tier = await getDefaultTier();
+    const tier = await getSelectedTier(req.body.product);
     const baseUrl = `${req.protocol}://${req.get('host')}`;
 
     const session = await stripe.checkout.sessions.create(

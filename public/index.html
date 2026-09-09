@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Llama Inc Pro — Subscribe</title>
+    <title>Llama Inc — Subscribe</title>
     <style>
       :root {
         --ink: #1b1530;
@@ -19,35 +19,63 @@
         margin: 0;
         min-height: 100vh;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         background: var(--bg);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         color: var(--ink);
-        padding: 1.5rem;
+        padding: 2.5rem 1.5rem;
+      }
+      .intro {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .intro .brand { font-size: 2rem; margin-bottom: 0.5rem; }
+      .intro h1 { font-size: 1.5rem; margin: 0 0 0.3rem; }
+      .intro p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+      .plans {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: center;
+        max-width: 54rem;
+        width: 100%;
       }
       .card {
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 20px;
         box-shadow: 0 20px 40px -24px rgba(27, 21, 48, 0.25);
-        padding: 2.75rem 2.5rem;
-        max-width: 26rem;
+        padding: 2.5rem 2.25rem;
+        max-width: 24rem;
         width: 100%;
         text-align: center;
+        position: relative;
       }
-      .brand {
-        font-size: 2rem;
-        margin-bottom: 0.75rem;
+      .card.featured { border-color: var(--accent); }
+      .badge-tag {
+        position: absolute;
+        top: -0.7rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent);
+        color: white;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
       }
-      h1 {
-        font-size: 1.4rem;
+      h2 {
+        font-size: 1.3rem;
         margin: 0 0 0.4rem;
       }
       .price {
-        font-size: 2.25rem;
+        font-size: 2.1rem;
         font-weight: 700;
-        margin: 1.25rem 0 0.25rem;
+        margin: 1.1rem 0 0.25rem;
       }
       .price span {
         font-size: 1rem;
@@ -56,8 +84,8 @@
       }
       p.tagline {
         color: var(--muted);
-        margin: 0 0 1.75rem;
-        font-size: 0.95rem;
+        margin: 0 0 1.5rem;
+        font-size: 0.92rem;
       }
       ul.perks {
         list-style: none;
@@ -90,27 +118,51 @@
       button:hover { background: var(--accent-dark); }
       button:active { transform: scale(0.98); }
       .footnote {
-        margin-top: 1.25rem;
+        margin-top: 3rem;
         font-size: 0.78rem;
         color: var(--muted);
+        text-align: center;
       }
     </style>
   </head>
   <body>
-    <div class="card">
+    <div class="intro">
       <div class="brand">🦙</div>
-      <h1>Llama Inc Pro</h1>
-      <p class="tagline">Custom travel recommendations, powered by your history.</p>
-      <div class="price">$9.99<span> / month</span></div>
-      <ul class="perks">
-        <li>Personalized recommendations based on past trips</li>
-        <li>Real-time price tracking</li>
-        <li>Priority trip support</li>
-      </ul>
-      <form action="/create-checkout-session" method="POST">
-        <button type="submit">Subscribe</button>
-      </form>
-      <p class="footnote">Secure checkout powered by Stripe. Cancel anytime.</p>
+      <h1>Choose your Llama Inc plan</h1>
+      <p>You can upgrade, downgrade, or cancel anytime after subscribing.</p>
     </div>
+    <div class="plans">
+      <div class="card">
+        <h2>Llama Inc Pro</h2>
+        <p class="tagline">Custom travel recommendations, powered by your history.</p>
+        <div class="price">$9.99<span> / month</span></div>
+        <ul class="perks">
+          <li>Personalized recommendations based on past trips</li>
+          <li>Real-time price tracking</li>
+          <li>Priority trip support</li>
+        </ul>
+        <form action="/create-checkout-session" method="POST">
+          <input type="hidden" name="product" value="prod_VEJDK3KXff2FTO" />
+          <button type="submit">Subscribe to Pro</button>
+        </form>
+      </div>
+      <div class="card featured">
+        <div class="badge-tag">Most features</div>
+        <h2>Llama Inc Ultra</h2>
+        <p class="tagline">Everything in Pro, plus deeper planning power.</p>
+        <div class="price">$12.99<span> / month</span></div>
+        <ul class="perks">
+          <li>Everything in Pro</li>
+          <li>Multi-city itinerary planning</li>
+          <li>Group trip coordination</li>
+          <li>24/7 concierge support</li>
+        </ul>
+        <form action="/create-checkout-session" method="POST">
+          <input type="hidden" name="product" value="prod_VEL8jQkf80Ix7Q" />
+          <button type="submit">Subscribe to Ultra</button>
+        </form>
+      </div>
+    </div>
+    <p class="footnote">Secure checkout powered by Stripe.</p>
   </body>
 </html>

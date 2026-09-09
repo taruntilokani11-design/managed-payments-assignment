@@ -1,13 +1,13 @@
 const express = require('express');
 const stripe = require('../lib/stripeClient');
 const store = require('../lib/store');
-const { ensureSubscriptionProduct, MANAGED_PAYMENTS_API_VERSION } = require('../services/subscriptionProduct');
+const { getSubscriptionProduct, MANAGED_PAYMENTS_API_VERSION } = require('../services/subscriptionProduct');
 
 const router = express.Router();
 
 router.post('/create-checkout-session', async (req, res, next) => {
   try {
-    const product = await ensureSubscriptionProduct();
+    const product = await getSubscriptionProduct();
     const baseUrl = `${req.protocol}://${req.get('host')}`;
 
     const session = await stripe.checkout.sessions.create(

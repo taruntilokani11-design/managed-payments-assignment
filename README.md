@@ -7,11 +7,12 @@ Sandbox account: **Llama Inc sandbox** (`acct_1UChvKBohAYF95kp`, test mode).
 
 ## What it does
 
-1. `GET /` — a page with a "Subscribe" button.
-2. `POST /create-checkout-session` — creates the "Basic subscription" product
-   ($10/month) the first time it's called (persisted after that), then creates
-   a Stripe Checkout Session with Managed Payments enabled and redirects the
-   customer to Stripe's hosted checkout page.
+1. `GET /` — a page with a "Subscribe" button for the **Llama Inc Pro**
+   subscription ($9.99/month), a product set up directly in the Stripe
+   Dashboard's product catalog (`prod_VEJDK3KXff2FTO`).
+2. `POST /create-checkout-session` — looks up that product's current price,
+   then creates a Stripe Checkout Session with Managed Payments enabled and
+   redirects the customer to Stripe's hosted checkout page.
 3. `GET /success` / `GET /cancel` — pages Stripe redirects back to.
 4. `POST /webhook` — listens for `checkout.session.completed` and saves the
    resulting `customer_id` / `subscription_id` into `data/db.json`, keyed by
@@ -73,6 +74,10 @@ via **Developers → Events** in the Dashboard.
 
 `data/db.json` (gitignored) — a tiny JSON file standing in for a real
 datastore:
-- `product` — the Stripe `product_id` / `price_id` created once and reused.
 - `subscriptions` — one record per Checkout Session, filled in by the webhook
   with `customerId` / `subscriptionId` once payment completes.
+
+The product/price themselves aren't cached locally — they're fetched from
+Stripe on every checkout so the price always reflects whatever's currently
+set in the Dashboard, and restarting the app (e.g. Render spinning back up
+after inactivity) never creates duplicate products.

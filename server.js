@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const checkoutRoutes = require('./routes/checkout');
 const webhookRoutes = require('./routes/webhook');
+const portalRoutes = require('./routes/portal');
 
 const app = express();
 
@@ -11,12 +12,10 @@ const app = express();
 app.use('/webhook', express.raw({ type: 'application/json' }), webhookRoutes);
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(checkoutRoutes);
-
-app.get('/success', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'success.html'));
-});
+app.use(portalRoutes);
 
 app.get('/cancel', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cancel.html'));

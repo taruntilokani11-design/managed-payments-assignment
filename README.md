@@ -13,10 +13,18 @@ Sandbox account: **Llama Inc sandbox** (`acct_1UChvKBohAYF95kp`, test mode).
 2. `POST /create-checkout-session` — looks up that product's current price,
    then creates a Stripe Checkout Session with Managed Payments enabled and
    redirects the customer to Stripe's hosted checkout page.
-3. `GET /success` / `GET /cancel` — pages Stripe redirects back to.
+3. `GET /success` — looks up the completed Checkout Session and shows a
+   "Manage subscription" button for that customer. `GET /cancel` — the page
+   Stripe redirects back to if checkout is abandoned.
 4. `POST /webhook` — listens for `checkout.session.completed` and saves the
    resulting `customer_id` / `subscription_id` into `data/db.json`, keyed by
    Checkout Session id.
+5. `POST /create-portal-session` — creates a Stripe Customer Portal session
+   for that customer and redirects them there. The portal is configured
+   (once, automatically, on first use) to let customers switch between
+   **Llama Inc Pro** ($9.99/mo) and **Llama Inc Ultra** ($12.99/mo) — Stripe
+   prorates the difference and handles the upgrade/downgrade itself, no
+   custom subscription-update code needed.
 
 ## One-time setup in the Stripe Dashboard (required — I can't do this part)
 
@@ -80,4 +88,7 @@ datastore:
 The product/price themselves aren't cached locally — they're fetched from
 Stripe on every checkout so the price always reflects whatever's currently
 set in the Dashboard, and restarting the app (e.g. Render spinning back up
-after inactivity) never creates duplicate products.
+after inactivity) never creates duplicate products. Same idea for the
+Customer Portal configuration: it's tagged with metadata so the app can find
+and reuse it, instead of relying on a local file that Render wipes on
+restart.

@@ -54,6 +54,12 @@
         position: relative;
       }
       .card.featured { border-color: var(--accent); }
+      .trial-note {
+        color: var(--accent-dark);
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin: -0.5rem 0 1.25rem;
+      }
       .badge-tag {
         position: absolute;
         top: -0.7rem;
@@ -136,6 +142,7 @@
         <h2>Llama Inc Pro</h2>
         <p class="tagline">Custom travel recommendations, powered by your history.</p>
         <div class="price">$9.99<span> / month</span></div>
+        <p class="trial-note">7-day free trial</p>
         <ul class="perks">
           <li>Personalized recommendations based on past trips</li>
           <li>Real-time price tracking</li>
@@ -143,14 +150,14 @@
         </ul>
         <form action="/create-checkout-session" method="POST">
           <input type="hidden" name="product" value="prod_VEJDK3KXff2FTO" />
-          <button type="submit">Subscribe to Pro</button>
+          <button type="submit">Start free trial</button>
         </form>
       </div>
-      <div class="card featured">
-        <div class="badge-tag">Most features</div>
+      <div class="card">
         <h2>Llama Inc Ultra</h2>
         <p class="tagline">Everything in Pro, plus deeper planning power.</p>
         <div class="price">$12.99<span> / month</span></div>
+        <p class="trial-note">7-day free trial</p>
         <ul class="perks">
           <li>Everything in Pro</li>
           <li>Multi-city itinerary planning</li>
@@ -159,7 +166,7 @@
         </ul>
         <form action="/create-checkout-session" method="POST">
           <input type="hidden" name="product" value="prod_VEL8jQkf80Ix7Q" />
-          <button type="submit">Subscribe to Ultra</button>
+          <button type="submit">Start free trial</button>
         </form>
       </div>
     </div>

@@ -18,6 +18,7 @@ router.post('/create-checkout-session', async (req, res, next) => {
       {
         mode: 'subscription',
         line_items: [{ price: tier.priceId, quantity: 1 }],
+        subscription_data: { trial_period_days: 7 },
         managed_payments: { enabled: true },
         // {CHECKOUT_SESSION_ID} is a literal placeholder Stripe substitutes —
         // the success page uses it to look up the resulting customer for the
